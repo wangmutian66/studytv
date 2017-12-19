@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>抽个签</title>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="js/qian.js"></script>
+	<style>
+	*{padding:0;margin:0;}
+	body{font-family:"Microsoft YaHei"}
+	a {
+    text-decoration:none;
+    out-line: none;
+	}
+	.yue{height: calc(100vh - 0px);overflow: hidden;background: url(img/bgs.jpg) no-repeat;background-size: 100% 100%;text-align: center;}
+	.yue .bg{width: 85%;position: relative;top:20%;}
+	.yue .y-a{position: relative;top:26%;}
+	.z-z{width: 100%;height: 100%;background: rgba(0,0,0,0.6);position: fixed;top: 0;left: 0;z-index: 9;}
+	.img0{width:100%;height: calc(100vh - 0px);overflow: hidden;background: url(img/result.png) no-repeat;background-size: 100% 100%;z-index: 10; position: fixed;top: 0;left: 0;}
+	.img0 div{z-index: 10;position: absolute;top: 0;left: 0;width:100%;height:100%;font-size: 11px;color:#696969;}
+	.m span{text-align: center;color: #000;}
+	.m span:first-child{font-size: 48px;position: absolute;top: 27%;left:0;width:100%;color:#fff;}
+	.m span:nth-child(2){font-size: 48px;position: absolute;top: 40%;left:0;width:100%;color:#e90f0e;}
+	.m span:nth-child(3){font-size: 48px;position: absolute;top: 45%;left:0;width:100%;color:#e90f0e;}
+	.m span:nth-child(4){font-size: 48px;position: absolute;top: 50%;left:0;width:100%;color:#e90f0e;}
+	.m span:nth-child(5){font-size: 48px;position: absolute;top: 55%;left:0;width:100%;color:#e90f0e;}
+	.m a{font-size: 48px;position: absolute;top: 68%;left:0;width:100%;text-align: center;color: #fff;font-weight: bold;}
+
+	</style>
+</head>
+<body>
+<div class="yue">
+	<img class="bg" src="img/1.png" alt="">
+	<a class="y-a"href="javascript:;" onclick="choose()"><img src="img/bt.png" alt=""></a>
+</div>
+	<!-- <img src="img/qiantong.gif" alt="">
+	<button onclick="choose()">抽签</button> -->
+	<div class="z-z" style="display:none;"></div>
+	<div class="img0" style="display:none;">
+		<div class="m">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		<a href="javascript:;" onclick="see()">灵签之曰</a>
+		</div>
+		</div>
+	<script>
+	$(function(){
+		var id = GetQueryString("id");
+		var timestamp=new Date().getTime();
+		inter = timestamp-id;//用于时间限制
+		// console.log(inter);
+	})
+		function choose(){
+			$(".bg").attr("src","img/1.gif");
+			setTimeout(function() {
+			    $(".bg").attr("src","img/1.png");
+			    var timestamp=new Date().getTime();
+			    id = timestamp%100;
+			    var arr = qian(id);
+
+			    a1 = arr[0][1][0].split("　");
+			    a2 = arr[0][2][0].split("　");
+
+			    $(".m").children("span").eq(0).html(arr[0][0][0]);
+			    $(".m").children("span").eq(1).html(a1[0]);
+			    $(".m").children("span").eq(2).html(a1[1]);
+			    $(".m").children("span").eq(3).html(a2[0]);
+			    $(".m").children("span").eq(4).html(a2[1]);
+			    $(".z-z").show();
+			    $(".img0").show();
+			}, 5000);
+		}
+		function see(){
+			window.location.href = 'http://tv.99zan.net/cat/catcode.html?id='+id;
+		}
+	</script>
+</body>
+</html>

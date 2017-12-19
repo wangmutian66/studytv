@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- <meta charset="UTF-8"> -->
+	<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" charset="UTF-8">
+	<title>长按二维码支付</title>
+	<style>
+	*{padding:0;margin:0;}
+	body{font-family:"Microsoft YaHei";}
+	.zf1{height: calc(100vh - 0px);overflow: hidden;position: relative;background: url(img/zf1.jpg) no-repeat;background-size: 100% 100%;text-align: center;}
+	.c-i{width: 65%;display: block;position: absolute;top: 40%;left: 18%;z-index: 9;}
+	.c-c{width: 65%;height:36%;position:absolute;top: 50%;left: 18%;background-color:#fff;z-index: 10;opacity:0.7;}
+	.c-l{width: 65%;position:absolute;top: 50%;left: 18%;z-index: 11;}
+	.zf1 span{background:#fff;margin-top: 154%;width: 60%;display: block;margin-left: 20%;font-size:14px;text-align: center;}
+	</style>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+</head>
+<body class="boss">
+ <div class="zf1">
+ 	
+   <img class="c-i" src="img/1mao.png" alt="">
+   <div class="c-c" style="display:none;"></div>
+   <img class="c-l" style="display:none;" src="img/load.gif" alt="">
+   <span class="times"></span>
+ </div>
+<script type="text/javascript">
+$(function(){
+	if(localStorage.lastname){
+		pay=localStorage.lastname
+		var timestamp=new Date().getTime();
+		window.location.href = 'http://tv.99zan.net/cat/qian.html?id='+timestamp;
+	}else{
+		pay=0
+		intime();
+	}
+
+})
+
+function intime(){
+	$.post("check.php",{name:'1'},function(result){
+		result = eval("("+result+")");
+		if(result){
+			if(result.errcode == "ok"){
+				var i=60;
+				$(".times").html("倒计时（"+i+"）秒");
+				timeint = setInterval(function(){
+					i = i-1;
+
+					if(i<0){
+						clearInterval(int);
+						clearInterval(timeint);
+					}else{
+						$(".times").html("倒计时（"+i+"）秒");
+					}
+					if(i<0){
+						alert('支付超时,刷新页面重新支付');
+						clearInterval(int);
+						clearInterval(timeint);
+						$(".c-c").show();
+						$(".c-l").show();
+						$(".times").html("二维码失效，刷新页面重新支付！");
+						// intime();
+					}
+				}, 1000);
+				//请求状态接口
+				int = setInterval("check()",5000);
+			}else{
+				alert('通道被占用，请稍后刷新重试')
+			}
+		}
+	})
+	
+}
+
+function check(){
+	$.post("check.php",{name:'2'},function(result){
+		result = eval("("+result+")");
+		if(result){
+			if(result.errcode == 'ok'){ //支付成功
+				clearInterval(int);
+				clearInterval(timeint);
+				alert('支付成功');
+				localStorage.lastname=1;
+				var timestamp=new Date().getTime();
+				window.location.href = 'http://tv.99zan.net/cat/qian.html?id='+timestamp;
+			}else if(result.errcode == '40004'){   //支付超时
+				alert('支付超时,刷新页面重新支付');
+				clearInterval(int);
+				clearInterval(timeint);
+				$(".c-c").show();
+				$(".c-l").show();
+				$(".times").html("二维码失效，刷新页面重新支付！");
+				// intime();
+			}else if(result.errcode == '40006'){   //通道被占用，请稍后重试
+				alert('通道被占用，请稍后刷新重试');
+				clearInterval(int);
+				clearInterval(timeint);
+				// intime();
+			}
+		}
+	})
+	
+}
+
+
+</script>
+
+</body>
+</html>

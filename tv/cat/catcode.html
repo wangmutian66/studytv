@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>交了钱我们就是朋友</title>
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="js/qian.js"></script>
+	<style>
+	*{padding:0;margin:0;}
+	body{font-family:"Microsoft YaHei"}
+	a {
+    text-decoration:none;
+    out-line: none;
+	}
+	.zf1{height: calc(100vh - 0px);overflow: hidden;background: url(img/bg1.jpg) no-repeat;background-size: 100% 100%;}
+	.tt{position:absolute;top:20%;left:15%;width:70%;color:#e90f0e;}
+	.tt h2{font-size: 60px;margin-bottom: 50px;text-align: center;}
+	.tt p{font-size: 40px;line-height: 80px;text-indent:2em;}
+	a{position:absolute;top:80%;left:30%;width:40%;background: url(img/btbg.png) no-repeat;background-size: 100% 100%;color:#a75b2e;height:100px;line-height: 100px;text-align: center;font-size: 40px;font-weight: 900;}
+	.z-z{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:11;}
+	.z-t{position:absolute;top:20%;left:7%;width:86%;z-index:11;}
+	.z-t span{display:block;font-size: 50px;color: #fdfdfd;margin-bottom: 80px;width:100%;text-align: center;}
+	</style>
+</head>
+<body class="boss">
+ <div class="zf1" did="<?php $_GET['id']; ?>">
+	 <div class="tt">
+		 <h2>灵签之曰</h2>
+		 <p></p>
+	</div>
+	<a href="javascript:;" onclick="showimg()">找大师</a>
+ </div>
+<div class="z-z" style="display:none;" onclick="hideimg()"></div>
+<div class="z-t" style="display:none;"><span>长按二维码扫描加大师微信</span><img src="img/cater.jpg" alt="" style="width:100%;"></div>
+<script type="text/javascript">
+$(function(){
+	var id = GetQueryString("id");
+	var arr = qian(id);
+	$("p").html(arr[1][0]);
+})
+
+function showimg(){
+	$(".z-z").show();
+	$(".z-t").show();
+}
+
+function hideimg(){
+	$(".z-z").hide();
+	$(".z-t").hide();
+}
+
+</script>
+
+</body>
+</html>

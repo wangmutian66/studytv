@@ -1,0 +1,82 @@
+ *{ margin:0; padding:0; }
+
+.cctv-list {
+    padding: 10px 17px 0 17px;
+}
+.cctv-list li.ott {
+    padding-right: 8px;
+}
+.cctv-list li {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 10px 0;
+    border: 1px solid #dbdbdb;
+    height: 90px;
+    background-color: #fff;
+    position: relative;
+    padding-left: 128px;
+    padding-right: 58px;
+    font-size: 14px;
+    line-height: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+.cctv-list .img-placeholder {
+    background-image: url(https://cdn.qhyx.imobiletv.cn/assets/guide/channel-placeholder-d148811….png);
+    background-size: cover;
+    background-position: center;
+}
+
+.cctv-list img, .cctv-list .img-placeholder {
+    width: 120px;
+    height: 90px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #dbdbdb;
+}
+.cctv-list .cctv {
+    padding-left: 76px;
+    line-height: 35px;
+    position: relative;
+    /*margin-top: -5px;*/
+}
+
+
+.cctv-list .cctv .ico {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70px;
+    height: 35px;
+}
+.cctv-list .chn-name .ico {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    content: '.';
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-indent: -100px;
+    overflow: hidden;
+}
+
+
+.cctv-list li.ott .current {
+    color: #6d9bfd;
+}
+.cctv-list .current {
+    margin-top: 5px;
+    color: #900;
+}
+.cctv-list .current, .cctv-list .next {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.cctv-list strong, .cctv-list .current, .cctv-list .next {
+    display: block;
+    line-height: 18px;
+}

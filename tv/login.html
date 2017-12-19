@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+  <title>登录</title>
+
+
+<style>
+*{padding:0;margin: 0;}
+input{ -webkit-appearance: none; } textarea { -webkit-appearance: none;}
+.head{height:50px;background: #e33019;color:#fff;font-size: 20px;position: relative;text-align: center;margin-bottom: 10px;line-height: 50px;}
+.head img{position: absolute;top: 15px;left: 8px;}
+.a-con1{overflow: hidden;padding-top: 50px;padding-bottom: 30px;}
+.a-con1 span{display: block;overflow: hidden;padding: 5px 0;width: 91%;margin:0 auto;}
+.a-con1 span input{font-size: 15px;margin-left: 8px;width: 30%;float: left;height: 40px;border-radius: 3px;border:1px solid #e5e5e5;padding-left: 5px;}
+.a-con2{overflow: hidden;padding: 5px 0;text-align: center;}
+.a-con2 input{width: 80%;height: 45px;background: #e33019;border-radius: 5px;text-align: center;line-height: 45px;font-size:18px;color: #fff;border:none;}
+/*.a-con2 a{display: block;color: #aeaeae;font-size: 17px;margin-top: 15px;}*/
+.a-con1 span p{display: inline-block;width: 65px;float: left;font-size: 18px;margin-top: 10px;}
+
+</style>
+</head>
+<body background="#fff;">
+   <div class="head">
+    手机登录
+   </div>
+   <div class="a-con1">
+   	<span style="margin-bottom: 20px;">
+   		<p>手机号 : </p>
+   		<input type="text" id="mobile" placeholder="请输入手机号" style="width: 75%;">
+   	</span>
+   	<span>
+   		<p>验证码 : </p>
+   		<input type="text" id="code" placeholder="请输验证码">
+      <input type="button" onclick="sendMSM()" value="获取验证码" style="width: 40%;   ">
+   	</span>
+   </div>
+   <div class="a-con2">
+   	<input type="button" value="确定" onclick="tocheck()">
+   </div>
+
+  <script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+  <script type="text/javascript">
+  	var mobilepref = /^1[3578]\d{9}$/;
+  	function sendMSM(){
+  		var mobile = $("#mobile").val();
+  		if(!mobile){
+  			alert("请输入手机号");
+  			return;
+  		}
+  		
+  		if(!mobilepref.test(mobile)){
+  			alert("手机号码格式不正确");
+  			return;
+  		}
+
+  		$("#moible").attr("disabled","disabled");
+
+  		$.ajax({
+  			url:"login.php",
+  			type:"post",
+  			data:{mobile:mobile,action:"send"},
+  			dataType:"json",
+  			success:function(res){
+  				if(res.code == "-1"){
+  					alert(res.msg);
+  				}else{
+  					alert("验证码发送成功，请注意查收");
+  				}
+  			},
+  			error:function(){
+  				alert("网络连接超时，请稍后重试");
+  			}
+  		})
+  	}
+
+  	function tocheck(){
+		var mobile = $("#mobile").val();
+  		if(!mobile){
+  			alert("请输入手机号");
+  			return;
+  		}
+  		console.log(mobile)
+  		if(!mobilepref.test(mobile)){
+  			alert("手机号码格式不正确");
+  			return;
+  		}
+
+  		var code = $("#code").val();
+
+  		if(!code){
+  			alert("请输入验证码");
+  			return;
+  		}
+
+  		// if(/^\d{6}$/.test(code)){
+  		// 	alert("请核实验证码");
+  		// 	return;
+  		// }
+
+  		$.ajax({
+  			url:"login.php",
+  			type:"post",
+  			data:{mobile:mobile,action:"check","verifycode":code},
+  			dataType:"json",
+  			success:function(res){
+  				if(res.code == "-1"){
+  					alert(res.msg);
+  				}else{
+  					alert("验证成功");
+            location.href='index.php';
+  				}
+  			},
+  			error:function(){
+  				alert("网络连接超时，请稍后重试");
+  			}
+  		})
+
+  	}
+
+  </script>
+</body>
+</html>
